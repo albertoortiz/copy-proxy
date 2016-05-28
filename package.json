@@ -1,6 +1,6 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
+  "name": "copy-proxy",
+  "version": "0.0.2",
   "dependencies": {
     "amqplib": "~0.3.2",
     "when" : "~3.7.3",
