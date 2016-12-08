@@ -6,7 +6,7 @@ var insert = require('./worker/copyWorker').insertInQ;
 
 schedule.scheduleJob('torrent ask',{minute: new schedule.Range(0, 59, 1)}, function() {
     var options = conf.optionRequestFiles();
-    logger.debug('request for files in SP ', options);
+    logger.debug('request for files in SP ', options.url);
     rp(options)
         .then(function(response) {
             if (response.statusCode === 200) {
@@ -20,6 +20,6 @@ schedule.scheduleJob('torrent ask',{minute: new schedule.Range(0, 59, 1)}, funct
             }
         })
         .catch(function(err) {
-            logger.error('Error asking for torrents in SP' , err);
+            logger.error('Error asking for torrents in SP' , err.message);
         });
 });
