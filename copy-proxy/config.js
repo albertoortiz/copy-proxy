@@ -1,8 +1,8 @@
 var remoteHostTransServer = '127.0.0.1';
 var remoteHostFilesServerIP = process.argv[2];
-var port1 = 8088;
+var port1 = 8080;
 var port2 = 8090;
-var remoteHostFilesServerPort = 8088;
+var remoteHostFilesServerPort = 8080;
 var remotePortTransServer = 8080;
 
 var requestTimeOut = 1000 * 60 * 5; // 5 minutes
@@ -26,9 +26,9 @@ module.exports = {
     },
     
     updateOption: function(jobToMerge) {
-        var remotePortUpdatePath = 8088;
-        if (jobToMerge.port === 22) {
-            remotePortUpdatePath = 8090;
+        var remotePortUpdatePath = port1;
+        if (jobToMerge.port === 222) {
+            remotePortUpdatePath = port2;
         }
         return {
             headers: {'content-type': 'application/json'},

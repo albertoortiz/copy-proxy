@@ -5,7 +5,6 @@ var conf = require('./../config');
 var logger = require('./../logger');
 var merge = require('./merge');
 var domainJobExecution = require('domain').create();
-var checksum = require('./checkSum');
 var fs = require('fs');
 
 var working = false;
@@ -48,43 +47,6 @@ var ProcessJobExecution = function(newJob, tasks) {
         var chunkOpt = conf.optionsChuckReq();
         chunkOpt.body = JSON.stringify(chuck).toString();
         logger.info('Request chunk ', chunkOpt);
-        // conf.config().optionsChuckReq.body = JSON.stringify(chuck).toString();
-        // rp(conf.config().optionsChuckReq)
-        rp(chunkOpt)
-            .then(function(body) {
-                logger.info('Chuck copied ' + body);
-
-                console.log('File download ..... ' + body);
-                //var csPart = checksum.shasum(body);
-                //console.log('chunk calculated ', csPart);
-                //
-                //// TODO read the .CS content
-                //fs.readFile(chuck.name + '.CS', function(err, data) {
-                //    if (err) return console.log('Error reading chunk data');
-                //    console.log('data read: ', data);
-                //});
-            })
-            .catch(function (err) {
-                logger.error('Error Req Chuck', err.message);
-                thereIsAnError = true;
-            })
-            .finally(function() {
-                taskWorker.emit('startReqChuck');
-            });
-
-        //// download .CS
-        //var chunkCS = chuck;
-        //chunkCS.name = chunkCS.name+'.CS';
-        //chunkCS.path = chunkCS.path+'.CS';
-        //logger.info('Chunk to request %s', chunkCS.name);
-        //var configCS = conf.optionsChuckReq;
-        //configCS.body = JSON.stringify(chunkCS).toString();
-        //rp(configCS)
-        //    .then(function(body) {
-        //        logger.info('CheckSum File copied ' + chunkCS.name)
-        //    }).catch(function (err) {
-        //        logger.error(err);
-        //    });
     });
 
     taskWorker.on('endChuck', function() {
@@ -103,7 +65,6 @@ var ProcessJobExecution = function(newJob, tasks) {
 
 domainJobExecution.on('error', function(err) {
     logger.error('domainJobExecution error: ' + err.message);
-    //throw new Error('From domains -> System should reboot');
 });
 
 exports.insertInQ = {
